@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/* Design System — Artisanal Synergy */
+@theme {
+  --font-display: "Epilogue", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Epilogue", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #060e20;         /* fundo profundo */
+  --color-night: #0b1326;       /* fundo primário */
+  --color-night-2: #121c33;     /* superfícies */
+  --color-line: #1f2a44;        /* divisores */
+  --color-flare: #f97316;       /* Solar Flare */
+  --color-flare-deep: #ea580c;  /* Laranja Cultural */
+  --color-mist: #cbd5e1;        /* texto de apoio (slate-300) */
+  --color-fog: #94a3b8;         /* texto terciário (slate-400) */
+
+  --radius-four: 4px;
+
+  --animate-kenburns: kenburns 22s ease-out both;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes kenburns {
+    from { transform: scale(1.12); }
+    to { transform: scale(1); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-ink);
+}
+
+body {
+  background: var(--color-night);
+  color: #fff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-flare);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-flare);
+  outline-offset: 3px;
+  border-radius: var(--radius-four);
+}
+
+/* Revelação ao rolar (ativada por <Reveal />) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Grão sutil de película sobre fotos */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Letreiro de clientes */
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
